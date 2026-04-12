@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resident Menu</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            color: #222;
+        }
+
+        #banner {
+            width: 100%;
+            height: 220px;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/80/2019.07.10_metro_California-housing_Blog-post_related.webp");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #content {
+            padding: 40px 60px;
+        }
+
+        #content h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 42px;
+        }
+
+        #content p {
+            margin-top: 0;
+            margin-bottom: 35px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 280px);
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            border: 1px solid #ddd;
+        }
+
+        .menu-card h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .menu-card p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .menu-card button {
+            width: 100%;
+            padding: 12px;
+            font-size: 17px;
+            border: none;
+            border-radius: 8px;
+            background: #2f2f2f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .menu-card button:hover {
+            background: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner"></div>
+
+    <div id="content">
+        <h1>Hi resident, what would you like to do?</h1>
+        <p>Select one of the options below.</p>
+
+        <div class="menu-grid">
+            <div class="menu-card">
+                <h2>Pay Rent</h2>
+                <p>Make a rent payment and review your current balance.</p>
+                <button>Pay Rent</button>
+            </div>
+
+            <div class="menu-card">
+                <h2>View Lease Terms</h2>
+                <p>Read your lease information and review important policies.</p>
+                <button>View Lease Terms</button>
+            </div>
+
+            <div class="menu-card">
+                <h2>Request Maintenance</h2>
+                <p>Submit a maintenance request for issues in your unit.</p>
+                <button>Request Maintenance</button>
+            </div>
+
+            <div class="menu-card">
+                <h2>Send Message/Complaint</h2>
+                <p>Contact management with a question, concern, or complaint.</p>
+                <button>Send Message/Complaint</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

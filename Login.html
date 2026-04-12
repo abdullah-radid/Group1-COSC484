@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Box</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("https://images.pexels.com/photos/33230969/pexels-photo-33230969.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-sizing: border-box;
+        }
+
+        .login-text {
+            color: white;
+            font-size: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #box {
+            width: 500px;
+            min-height: 300px;
+            background: #FFE4C4;
+            border: 3px solid black;
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        #box h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="login-text">Login as:</div>
+        <a onclick="showResident()">Residents</a>
+        <a onclick="showAdministration()">Administration</a>
+        <a onclick="showMaintenance()">Maintenance</a>
+    </nav>
+
+    <div id="box"></div>
+
+    <script>
+        function showResident() {
+            document.getElementById("box").innerHTML = `
+                <h2>Resident Login</h2>
+                <form action="residentMenu.html" method="get">
+                    <div>
+                        <label for="residentEmail">Email:</label>
+                        <input type="email" id="residentEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div>
+                        <label for="residentPassword">Password:</label>
+                        <input type="password" id="residentPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        function showMaintenance() {
+            document.getElementById("box").innerHTML = `
+                <h2>Maintenance Login</h2>
+                <form>
+                    <div>
+                        <label for="maintenanceID">Employee ID:</label>
+                        <input type="text" id="maintenanceID" name="employeeID" placeholder="Enter employee ID" required>
+                    </div>
+
+                    <div>
+                        <label for="maintenancePassword">Password:</label>
+                        <input type="password" id="maintenancePassword" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        function showAdministration() {
+            document.getElementById("box").innerHTML = `
+                <h2>Administration Login</h2>
+                <form>
+                    <div>
+                        <label for="adminID">Employee ID:</label>
+                        <input type="text" id="adminID" name="employeeID" placeholder="Enter employee ID" required>
+                    </div>
+
+                    <div>
+                        <label for="adminPassword">Password:</label>
+                        <input type="password" id="adminPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <div>
+                        <label for="adminCode">Admin Code:</label>
+                        <input type="text" id="adminCode" name="adminCode" placeholder="Enter admin code" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        showResident();
+    </script>
+</body>
+</html>
