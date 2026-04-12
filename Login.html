@@ -119,10 +119,10 @@
         function showMaintenance() {
             document.getElementById("box").innerHTML = `
                 <h2>Maintenance Login</h2>
-                <form>
+                <form action="maintenanceMenu.html" method="get">
                     <div>
                         <label for="maintenanceID">Employee ID:</label>
-                        <input type="text" id="maintenanceID" name="employeeID" placeholder="Enter employee ID" required>
+                        <input type="number" id="maintenanceID" name="employeeID" placeholder="Enter employee ID" required>
                     </div>
 
                     <div>
@@ -138,10 +138,10 @@
         function showAdministration() {
             document.getElementById("box").innerHTML = `
                 <h2>Administration Login</h2>
-                <form>
+                <form action="administrationMenu.html" method="get">
                     <div>
                         <label for="adminID">Employee ID:</label>
-                        <input type="text" id="adminID" name="employeeID" placeholder="Enter employee ID" required>
+                        <input type="number" id="adminID" name="employeeID" placeholder="Enter employee ID" required>
                     </div>
 
                     <div>
@@ -151,7 +151,7 @@
 
                     <div>
                         <label for="adminCode">Admin Code:</label>
-                        <input type="text" id="adminCode" name="adminCode" placeholder="Enter admin code" required>
+                        <input type="number" id="adminCode" name="adminCode" placeholder="Enter admin code" required>
                     </div>
 
                     <button type="submit">Login</button>

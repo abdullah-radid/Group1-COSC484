@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administration Menu</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            color: #222;
+        }
+
+        #banner {
+            width: 100%;
+            height: 220px;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/80/2019.07.10_metro_California-housing_Blog-post_related.webp");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #content {
+            padding: 40px 60px;
+        }
+
+        #content h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 42px;
+        }
+
+        #content p {
+            margin-top: 0;
+            margin-bottom: 35px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 280px);
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            border: 1px solid #ddd;
+        }
+
+        .menu-card h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .menu-card p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .menu-card button {
+            width: 100%;
+            padding: 12px;
+            font-size: 17px;
+            border: none;
+            border-radius: 8px;
+            background: #2f2f2f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .menu-card button:hover {
+            background: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner"></div>
+
+    <div id="content">
+        <h1>Administration Menu</h1>
+        <p>Select one of the options below.</p>
+
+        <div class="menu-grid">
+            <div class="menu-card">
+                <h2>Resident Messages/Concerns</h2>
+                <p>Read resident questions, complaints, and submitted concerns.</p>
+                <button>View Messages</button>
+            </div>
+
+            <div class="menu-card">
+                <h2>Resident Statuses</h2>
+                <p>Check resident account status, lease standing, and occupancy details.</p>
+                <button>View Statuses</button>
+            </div>
+
+            <div class="menu-card">
+                <h2>Manage Notices</h2>
+                <p>Create and review building-wide notices and announcements.</p>
+                <button>Manage Notices</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
