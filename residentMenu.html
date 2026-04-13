@@ -82,34 +82,37 @@
     <div id="banner"></div>
 
     <div id="content">
-        <h1>Hi resident, what would you like to do?</h1>
+        <h1>Welcome, Resident</h1>
         <p>Select one of the options below.</p>
 
         <div class="menu-grid">
             <div class="menu-card">
                 <h2>Pay Rent</h2>
                 <p>Make a rent payment and review your current balance.</p>
-                <button>Pay Rent</button>
+                <button onclick="window.location.href='payRent.html'">Pay Rent</button>
             </div>
 
             <div class="menu-card">
                 <h2>View Lease Terms</h2>
                 <p>Read your lease information and review important policies.</p>
-                <button>View Lease Terms</button>
+                <button onclick="window.location.href='lease.html'">View Lease Terms</button>
             </div>
 
             <div class="menu-card">
                 <h2>Request Maintenance</h2>
                 <p>Submit a maintenance request for issues in your unit.</p>
-                <button>Request Maintenance</button>
+                <button onclick="window.location.href='maintenanceRequest.html'">Request Maintenance</button>
             </div>
 
             <div class="menu-card">
                 <h2>Send Message/Complaint</h2>
                 <p>Contact management with a question, concern, or complaint.</p>
-                <button>Send Message/Complaint</button>
+                <button onclick="window.location.href='message.html'">Send Message/Complaint</button>
             </div>
         </div>
+
+        <br><br>
+        <button onclick="window.location.href='Login.html'">Logout</button>
     </div>
 </body>
 </html>

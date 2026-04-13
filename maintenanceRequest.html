@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maintenance Request</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 40px;
+            background: #f3f3f3;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Submit Maintenance Request</h1>
+
+<form onsubmit="showMessage(event)">
+    <label>Issue Type:</label>
+    <input type="text" required>
+
+    <label>Description:</label>
+    <textarea required></textarea>
+
+    <button type="submit">Submit Request</button>
+</form>
+
+<br>
+<button onclick="window.location.href='residentMenu.html'">Back</button>
+
+<script>
+function showMessage(event) {
+    event.preventDefault();
+    alert("Request submitted successfully!");
+}
+</script>
+
+</body>
+</html>
