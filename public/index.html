@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riverside Apartments - Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Homepage-specific styles ── */
+
+        html { scroll-behavior: smooth; }
+
+        /* Nav override for homepage (transparent over hero) */
+        .home-nav {
+            position: fixed;
+            background: rgba(20, 20, 20, 0.85);
+            backdrop-filter: blur(6px);
+        }
+
+        .home-nav .nav-login-btn {
+            padding: 8px 20px;
+            font-size: 14px;
+            background: white;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .home-nav .nav-login-btn:hover {
+            background: #e5e5e5;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            height: 100vh;
+            background-image: url("https://images.pexels.com/photos/33230969/pexels-photo-33230969.jpeg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.52);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            margin: 0 0 14px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin: 0 0 36px;
+            opacity: 0.88;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            padding: 14px 32px;
+            font-size: 16px;
+            background: white;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-hero-primary:hover { background: #e5e5e5; }
+
+        .btn-hero-outline {
+            padding: 14px 32px;
+            font-size: 16px;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.7);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-hero-outline:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: white;
+        }
+
+        /* ── Sections ── */
+        section {
+            padding: 80px 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 0 0 50px;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+            margin: 0 0 10px;
+            color: #1a1a1a;
+        }
+
+        .section-title p {
+            font-size: 17px;
+            color: #777;
+            margin: 0;
+        }
+
+        /* ── Features ── */
+        .features { background: #f0f2f5; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 14px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            color: #1a1a1a;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ── Gallery ── */
+        .gallery { background: #1a1a1a; }
+
+        .gallery .section-title h2 { color: white; }
+        .gallery .section-title p { color: #aaa; }
+
+        .slideshow {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 480px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active { display: block; }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            font-size: 15px;
+        }
+
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 22px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+            z-index: 2;
+        }
+
+        .slide-btn:hover { background: rgba(255,255,255,0.28); }
+        .slide-btn.prev { left: 16px; }
+        .slide-btn.next { right: 16px; }
+
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #555;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dot.active { background: white; }
+
+        /* ── FAQ ── */
+        .faq { background: white; }
+
+        .faq-list {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        details {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        details:first-child { border-top: 1px solid #f0f0f0; }
+
+        summary {
+            padding: 18px 4px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a1a1a;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        summary::after {
+            content: '+';
+            font-size: 22px;
+            font-weight: 300;
+            color: #aaa;
+            transition: transform 0.2s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        details p {
+            padding: 0 4px 18px;
+            font-size: 15px;
+            color: #666;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* ── Inquire ── */
+        .inquire { background: #f0f2f5; }
+
+        .inquire-wrap {
+            display: flex;
+            gap: 50px;
+            max-width: 960px;
+            margin: 0 auto;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .inquire-info {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .inquire-info h2 {
+            font-size: 28px;
+            margin: 0 0 14px;
+            color: #1a1a1a;
+        }
+
+        .inquire-info p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.65;
+            margin: 0 0 24px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .contact-detail span:first-child {
+            font-size: 18px;
+        }
+
+        .inquire-form {
+            flex: 1.2;
+            min-width: 280px;
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .inquire-form h3 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: #1a1a1a;
+            color: #aaa;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: white; }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .hero-content h1 { font-size: 34px; }
+            .hero-content p { font-size: 16px; }
+            section { padding: 60px 20px; }
+            .slide { height: 260px; }
+            footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="home-nav">
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <a href="#inquire" style="color:#ccc; font-size:14px; text-decoration:none; margin-right:6px;">Inquire</a>
+            <button class="nav-login-btn" onclick="window.location.href='Login.html'">Resident Login</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find a New Place to Call Home</h1>
+            <p>Modern apartment living in the heart of the community</p>
+            <div class="hero-btns">
+                <button class="btn-hero-primary" onclick="document.getElementById('inquire').scrollIntoView({behavior:'smooth'})">Schedule a Tour</button>
+                <button class="btn-hero-outline" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">View Apartments</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="section-title">
+            <h2>Why Riverside Apartments?</h2>
+            <p>Everything you need for comfortable, modern living</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Modern Units</h3>
+                <p>Updated appliances, in-unit laundry, hardwood floors, and spacious layouts designed for everyday comfort.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Prime Location</h3>
+                <p>Minutes from public transit, shopping, dining, and entertainment. Everything is right at your doorstep.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Community Amenities</h3>
+                <p>Enjoy access to a fitness center, pool, resident lounge, and secured parking all included.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery" id="gallery">
+        <div class="section-title">
+            <h2>Take a Look Inside</h2>
+            <p>Explore our units and community spaces</p>
+        </div>
+
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg');">
+                <div class="slide-caption">Spacious Living Room</div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg');">
+                <div class="slide-caption">Comfortable Bedroom</div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg');">
+                <div class="slide-caption">Modern Interior</div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg');">
+                <div class="slide-caption">Updated Kitchen</div>
+            </div>
+
+            <button class="slide-btn prev" onclick="changeSlide(-1)">&#8249;</button>
+            <button class="slide-btn next" onclick="changeSlide(1)">&#8250;</button>
+        </div>
+
+        <div class="slide-dots" id="dots"></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know before moving in</p>
+        </div>
+        <div class="faq-list">
+
+            <details>
+                <summary>How do I apply for an apartment?</summary>
+                <p>You can begin the application process by contacting our leasing office via the inquiry form below or by calling us directly. We'll walk you through availability, pricing, and the application requirements.</p>
+            </details>
+
+            <details>
+                <summary>What is included in the monthly rent?</summary>
+                <p>Monthly rent includes water, trash, and access to all community amenities including the pool, fitness center, and resident lounge. Electricity and internet are the resident's responsibility.</p>
+            </details>
+
+            <details>
+                <summary>Do you allow pets?</summary>
+                <p>Yes, we are pet-friendly! Dogs and cats under 40 lbs are welcome with prior written approval. A one-time non-refundable pet deposit of $300 is required per pet.</p>
+            </details>
+
+            <details>
+                <summary>What lease terms are available?</summary>
+                <p>We offer 6-month and 12-month lease terms. Month-to-month arrangements may be available upon request at an adjusted rate. Please contact the leasing office for current availability.</p>
+            </details>
+
+            <details>
+                <summary>How do I submit a maintenance request?</summary>
+                <p>Current residents can submit maintenance requests through the Resident Portal. Our maintenance team typically responds within 24–48 hours for non-emergency requests, and immediately for emergencies.</p>
+            </details>
+
+            <details>
+                <summary>Is parking available?</summary>
+                <p>Yes, one assigned parking space is included with each unit. Additional spaces may be available for a monthly fee. Visitor parking is also available on a first-come, first-served basis.</p>
+            </details>
+
+        </div>
+    </section>
+
+    <!-- Inquire -->
+    <section class="inquire" id="inquire">
+        <div class="inquire-wrap">
+
+            <div class="inquire-info">
+                <h2>Get in Touch</h2>
+                <p>Interested in making Riverside your home? Fill out the form and our leasing team will reach out within one business day.</p>
+                <div class="contact-detail"><span>(123) 456-7891</span></div>
+                <div class="contact-detail"><span>leasing@riversideapts.com</span></div>
+                <div class="contact-detail"><span>Mon – Fri: 9 AM – 5 PM</span></div>
+                <div class="contact-detail"><span>123 Riverside Drive</span></div>
+            </div>
+
+            <div class="inquire-form">
+                <h3>Schedule a Tour</h3>
+                <form onsubmit="submitInquiry(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" placeholder="Jane" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" placeholder="Smith" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquireEmail">Email</label>
+                        <input type="email" id="inquireEmail" placeholder="jane@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" placeholder="(555) 000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="inquireMsg">Message</label>
+                        <textarea id="inquireMsg" placeholder="Tell us what you're looking for..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" style="width:100%;">Send Inquiry</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            <div class="footer-brand">Riverside Apartments</div>
+            <div class="footer-copy">&copy; 2026 Riverside Apartments. All rights reserved.</div>
+        </div>
+        <div class="footer-links">
+            <a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Gallery</a>
+            <a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
+            <a onclick="document.getElementById('inquire').scrollIntoView({behavior:'smooth'})">Contact</a>
+            <a onclick="window.location.href='Login.html'">Resident Login</a>
+        </div>
+    </footer>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+
+        // Build dots
+        slides.forEach((_, i) => {
+            const d = document.createElement('div');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.onclick = () => goTo(i);
+            dotsContainer.appendChild(d);
+        });
+
+        function goTo(n) {
+            slides[current].classList.remove('active');
+            document.querySelectorAll('.dot')[current].classList.remove('active');
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            document.querySelectorAll('.dot')[current].classList.add('active');
+        }
+
+        function changeSlide(dir) { goTo(current + dir); }
+
+        // Auto-advance every 4 seconds
+        setInterval(() => changeSlide(1), 4000);
+
+        function submitInquiry(e) {
+            e.preventDefault();
+            alert('Thank you! Our leasing team will contact you within one business day.');
+            e.target.reset();
+        }
+    </script>
+
+</body>
+</html>
