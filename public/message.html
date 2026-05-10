@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Send a Message</h1>
+            <p>Contact management with questions or concerns</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="submitMessage(event)">
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="general">General Question</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="noise">Noise Concern</option>
+                        <option value="billing">Billing Issue</option>
+                        <option value="lease">Lease Question</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="Brief description of your message" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="body">Message</label>
+                    <textarea id="body" placeholder="Write your message here..." style="min-height:140px;" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Send Message</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitMessage(e) {
+            e.preventDefault();
+            alert('Message sent! Management will respond within 1–2 business days. (Backend integration coming soon)');
+            e.target.reset();
+        }
+    </script>
+
+</body>
+</html>

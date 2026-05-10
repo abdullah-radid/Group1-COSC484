@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Request Status - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Maintenance Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Update Request Status</h1>
+            <p>Mark maintenance requests as complete or in progress</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='maintenanceMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="updateStatus(event)">
+
+                <div class="form-group">
+                    <label for="orderId">Work Order #</label>
+                    <input type="text" id="orderId" placeholder="e.g. 1042" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">New Status</label>
+                    <select id="status" required>
+                        <option value="" disabled selected>Select a status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="on_hold">On Hold</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" placeholder="Add any notes about the work performed or current status..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Update Status</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus(e) {
+            e.preventDefault();
+            const id = document.getElementById('orderId').value;
+            const status = document.getElementById('status').value;
+            alert(`Work Order #${id} updated to "${status}". (Backend integration coming soon)`);
+            e.target.reset();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Statuses - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Administration Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Resident Statuses</h1>
+            <p>Account standing and lease information</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='administrationMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="table-card">
+            <div class="table-card-header">
+                <h2>All Residents</h2>
+                <span style="font-size:13px; color:#aaa;">4 residents</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Lease End</th>
+                        <th>Rent Status</th>
+                        <th>Account</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Smith</td>
+                        <td>205</td>
+                        <td>Dec 31, 2026</td>
+                        <td><span class="badge badge-pending">Payment Due</span></td>
+                        <td><span class="badge badge-active">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>Maria Garcia</td>
+                        <td>101</td>
+                        <td>Mar 31, 2027</td>
+                        <td><span class="badge badge-done">Paid</span></td>
+                        <td><span class="badge badge-active">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>David Chen</td>
+                        <td>312</td>
+                        <td>Jun 30, 2026</td>
+                        <td><span class="badge badge-done">Paid</span></td>
+                        <td><span class="badge badge-active">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sarah Williams</td>
+                        <td>418</td>
+                        <td>Sep 30, 2026</td>
+                        <td><span class="badge badge-overdue">Overdue</span></td>
+                        <td><span class="badge badge-active">Active</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

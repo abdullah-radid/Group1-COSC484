@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Welcome, Resident</h1>
+            <p>Manage your apartment from one place</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="page-layout">
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+
+                <!-- Amount Due Widget -->
+                <div class="widget amount-due">
+                    <p class="widget-label">Amount Due</p>
+                    <div class="amount">$1,200</div>
+                    <div class="due-label">Due by June 1, 2026</div>
+                    <span class="status-badge">Payment Pending</span>
+                    <button class="pay-btn" onclick="window.location.href='payRent.html'">Pay Now &rarr;</button>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="widget" id="weather-widget">
+                    <p class="widget-label">Current Weather</p>
+                    <div class="weather-main">
+                        <div class="weather-icon" id="weather-icon">🌡️</div>
+                        <div>
+                            <div class="weather-temp" id="weather-temp">--°F</div>
+                            <div class="weather-desc" id="weather-desc">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="weather-details">
+                        <span id="weather-wind">--</span>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Main Menu -->
+            <main class="main-content">
+                <div class="menu-grid">
+
+                    <div class="menu-card">
+                        <div class="card-icon">💳</div>
+                        <h2>Pay Rent</h2>
+                        <p>Make a rent payment and review your current balance and payment history.</p>
+                        <button onclick="window.location.href='payRent.html'">Pay Rent</button>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="card-icon">📄</div>
+                        <h2>View Lease Terms</h2>
+                        <p>Read your lease agreement and review important policies.</p>
+                        <button onclick="window.location.href='lease.html'">View Lease Terms</button>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="card-icon">🔧</div>
+                        <h2>Request Maintenance</h2>
+                        <p>Submit a request for any issues in your unit that need attention.</p>
+                        <button onclick="window.location.href='maintenanceRequest.html'">Request Maintenance</button>
+                    </div>
+
+                    <div class="menu-card">
+                        <div class="card-icon">✉️</div>
+                        <h2>Send Message</h2>
+                        <p>Contact management with a question, concern, or complaint.</p>
+                        <button onclick="window.location.href='message.html'">Send Message</button>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <script>
+        const WMO_DESC = {
+            0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+            45: 'Foggy', 48: 'Icy fog',
+            51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle',
+            61: 'Light rain', 63: 'Moderate rain', 65: 'Heavy rain',
+            71: 'Light snow', 73: 'Moderate snow', 75: 'Heavy snow',
+            80: 'Rain showers', 81: 'Moderate showers', 82: 'Heavy showers',
+            95: 'Thunderstorm', 96: 'Thunderstorm + hail', 99: 'Thunderstorm + hail'
+        };
+        const WMO_ICON = {
+            0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+            45: '🌫️', 48: '🌫️',
+            51: '🌦️', 53: '🌦️', 55: '🌧️',
+            61: '🌧️', 63: '🌧️', 65: '🌧️',
+            71: '❄️', 73: '❄️', 75: '❄️',
+            80: '🌦️', 81: '🌦️', 82: '⛈️',
+            95: '⛈️', 96: '⛈️', 99: '⛈️'
+        };
+
+        async function loadWeather() {
+            try {
+                const pos = await new Promise((res, rej) =>
+                    navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000 })
+                );
+                const { latitude, longitude } = pos.coords;
+                const r = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph`
+                );
+                const data = await r.json();
+                const w = data.current_weather;
+                document.getElementById('weather-icon').textContent = WMO_ICON[w.weathercode] ?? '🌡️';
+                document.getElementById('weather-temp').textContent = `${Math.round(w.temperature)}°F`;
+                document.getElementById('weather-desc').textContent = WMO_DESC[w.weathercode] ?? 'Unknown';
+                document.getElementById('weather-wind').textContent = `Wind ${Math.round(w.windspeed)} mph`;
+            } catch {
+                document.getElementById('weather-desc').textContent = 'Enable location for weather';
+                document.getElementById('weather-wind').textContent = '';
+            }
+        }
+
+        loadWeather();
+    </script>
+
+</body>
+</html>

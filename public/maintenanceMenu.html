@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Maintenance Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Maintenance Dashboard</h1>
+            <p>View and manage work orders and maintenance requests</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="menu-grid">
+
+            <div class="menu-card">
+                <div class="card-icon">🔧</div>
+                <h2>View Work Orders</h2>
+                <p>See submitted maintenance requests and current work assignments.</p>
+                <button onclick="window.location.href='workOrders.html'">View Work Orders</button>
+            </div>
+
+            <div class="menu-card">
+                <div class="card-icon">🔄</div>
+                <h2>Update Request Status</h2>
+                <p>Mark requests as pending, in progress, or completed.</p>
+                <button onclick="window.location.href='updateStatus.html'">Update Status</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
