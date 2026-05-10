@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Rent - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Pay Rent</h1>
+            <p>Review your balance and make a payment</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+
+            <div class="amount-summary">
+                <div>
+                    <div class="summary-label">Amount Due</div>
+                    <div class="summary-amount">$1,200.00</div>
+                    <div class="summary-meta">Due by June 1, 2026 &nbsp;·&nbsp; Unit 205</div>
+                </div>
+                <span class="badge badge-pending">Pending</span>
+            </div>
+
+            <form onsubmit="submitPayment(event)">
+                <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" placeholder="John Smith" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" placeholder="MM / YY" maxlength="7" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label for="amount">Payment Amount ($)</label>
+                    <input type="number" id="amount" value="1200.00" min="1" step="0.01" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitPayment(e) {
+            e.preventDefault();
+            alert('Payment submitted! (Backend integration coming soon)');
+        }
+    </script>
+
+</body>
+</html>

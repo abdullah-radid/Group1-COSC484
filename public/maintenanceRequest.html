@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Request - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Maintenance Request</h1>
+            <p>Report an issue in your unit</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="submitRequest(event)">
+
+                <div class="form-group">
+                    <label for="issueType">Issue Type</label>
+                    <select id="issueType" required>
+                        <option value="" disabled selected>Select issue type</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="hvac">Heating / Cooling</option>
+                        <option value="appliance">Appliance</option>
+                        <option value="pest">Pest Control</option>
+                        <option value="structural">Structural / Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="urgency">Urgency</label>
+                    <select id="urgency" required>
+                        <option value="" disabled selected>Select urgency level</option>
+                        <option value="emergency">Emergency (safety risk)</option>
+                        <option value="high">High (unit unusable)</option>
+                        <option value="medium">Medium (inconvenient)</option>
+                        <option value="low">Low (minor issue)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Describe the issue in detail, including location within the unit..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Preferred Entry Time</label>
+                    <input type="text" id="availability" placeholder="e.g. Weekdays after 3 PM">
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Request</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitRequest(e) {
+            e.preventDefault();
+            alert('Maintenance request submitted! You will be contacted to confirm a service time. (Backend integration coming soon)');
+            e.target.reset();
+        }
+    </script>
+
+</body>
+</html>

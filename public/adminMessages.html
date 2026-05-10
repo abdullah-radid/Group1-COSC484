@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Messages - Riverside Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Administration Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Resident Messages</h1>
+            <p>View and respond to resident concerns</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='administrationMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="table-card">
+            <div class="table-card-header">
+                <h2>All Messages</h2>
+                <span style="font-size:13px; color:#aaa;">3 messages</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Unit</th>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Maria Garcia</td>
+                        <td>101</td>
+                        <td>Question about lease renewal</td>
+                        <td>Lease Question</td>
+                        <td>May 8, 2026</td>
+                        <td><span class="badge badge-pending">Unread</span></td>
+                    </tr>
+                    <tr>
+                        <td>David Chen</td>
+                        <td>312</td>
+                        <td>Noise complaint — Unit 313</td>
+                        <td>Noise Concern</td>
+                        <td>May 7, 2026</td>
+                        <td><span class="badge badge-progress">In Review</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sarah Williams</td>
+                        <td>418</td>
+                        <td>Billing discrepancy on May statement</td>
+                        <td>Billing Issue</td>
+                        <td>May 5, 2026</td>
+                        <td><span class="badge badge-done">Resolved</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

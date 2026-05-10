@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Administration Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Administration Dashboard</h1>
+            <p>Manage residents, messages, and building notices</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="menu-grid">
+
+            <div class="menu-card">
+                <div class="card-icon">✉️</div>
+                <h2>Resident Messages</h2>
+                <p>Read resident questions, complaints, and submitted concerns.</p>
+                <button onclick="window.location.href='adminMessages.html'">View Messages</button>
+            </div>
+
+            <div class="menu-card">
+                <div class="card-icon">👥</div>
+                <h2>Resident Statuses</h2>
+                <p>Check resident account status, lease standing, and occupancy details.</p>
+                <button onclick="window.location.href='residentStatuses.html'">View Statuses</button>
+            </div>
+
+            <div class="menu-card">
+                <div class="card-icon">📢</div>
+                <h2>Manage Notices</h2>
+                <p>Create and review building-wide notices and announcements.</p>
+                <button onclick="window.location.href='manageNotices.html'">Manage Notices</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
