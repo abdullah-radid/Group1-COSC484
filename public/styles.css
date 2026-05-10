@@ -158,7 +158,45 @@ nav {
 .amount-due .due-label {
     font-size: 13px;
     color: #999;
+    margin-bottom: 12px;
+}
+
+.autopay-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     margin-bottom: 14px;
+}
+
+.autopay-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c0392b;
+    flex-shrink: 0;
+}
+
+.autopay-label {
+    font-size: 12px;
+    color: #888;
+    flex: 1;
+}
+
+.autopay-setup {
+    font-size: 12px;
+    color: #2f2f2f;
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: all 0.2s;
+}
+
+.autopay-setup:hover {
+    background: #f0f0f0;
+    border-color: #aaa;
 }
 
 .amount-due .status-badge {
