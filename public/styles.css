@@ -273,8 +273,9 @@ nav {
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, 280px);
     gap: 18px;
+    justify-content: center;
 }
 
 .menu-card {
@@ -359,6 +360,9 @@ nav {
     padding: 28px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     border: 1px solid #e5e7eb;
+
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .page-card-narrow {
