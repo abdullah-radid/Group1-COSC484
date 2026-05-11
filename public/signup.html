@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Sign Up - Towson Apartments</title>
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+    <header class="topbar">
+        <a href="index.html" class="logo">
+            <span class="logo-the">THE</span>
+            <span class="logo-main">TOWSON APARTMENTS</span>
+        </a>
+
+        <nav class="top-links">
+            <a href="index.html">HOME</a>
+            <a href="faq.html">FAQ</a>
+            <a href="signup.html">SIGN UP</a>
+            <a class="dark-btn" href="Login.html">LOGIN</a>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <section class="form-card">
+            <h1>Resident Sign Up</h1>
+            <p>Use this form to add a new resident account. After the form is submitted, the resident can log in with their email and password.</p>
+
+            <form id="signupForm" class="signup-grid">
+                <div>
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div>
+                    <label for="unit">Unit Number</label>
+                    <input type="text" id="unit" required>
+                </div>
+
+                <div>
+                    <label for="leaseEnds">Lease Ends</label>
+                    <input type="text" id="leaseEnds" placeholder="Dec 31, 2026" required>
+                </div>
+
+                <div>
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" placeholder="Optional">
+                </div>
+
+                <div class="full-width">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" placeholder="Optional move-in notes"></textarea>
+                </div>
+
+                <div class="full-width">
+                    <button type="submit">ADD RESIDENT</button>
+                    <p id="signupMessage"></p>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById('signupMessage');
+            message.textContent = 'Adding resident...';
+
+            const resident = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value,
+                unit: document.getElementById('unit').value.trim(),
+                leaseEnds: document.getElementById('leaseEnds').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                notes: document.getElementById('notes').value.trim()
+            };
+
+            try {
+                const response = await fetch('/api/residents', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(resident)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    message.textContent = data.error || 'Could not add resident.';
+                    return;
+                }
+
+                message.textContent = 'Resident added. They can now log in with their email and password.';
+                document.getElementById('signupForm').reset();
+            } catch (err) {
+                message.textContent = 'Could not connect to the server.';
+            }
+        });
+    </script>
+</body>
+</html>

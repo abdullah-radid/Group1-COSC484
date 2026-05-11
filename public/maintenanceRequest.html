@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Request - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Maintenance Request</h1>
+            <p>Report an Issue</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="submitRequest(event)" novalidate>
+
+                <div class="form-group">
+                    <label for="issueType">Issue Type</label>
+                    <select id="issueType" required>
+                        <option value="" disabled selected>Select Issue Type</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="hvac">Heating / Cooling</option>
+                        <option value="appliance">Appliance</option>
+                        <option value="pest">Pest Control</option>
+                        <option value="structural">Structural / Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="field-error">Please select an issue type.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="urgency">Urgency</label>
+                    <select id="urgency" required>
+                        <option value="" disabled selected>Select Urgency Level</option>
+                        <option value="emergency">Emergency (Safety Risk)</option>
+                        <option value="high">High (Unit Unusable)</option>
+                        <option value="medium">Medium (Inconvenient)</option>
+                        <option value="low">Low (Minor Issue)</option>
+                    </select>
+                    <span class="field-error">Please select an urgency level.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Describe the issue in detail, including location within the unit..."></textarea>
+                    <span class="field-error">Description is required.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Preferred Entry Time</label>
+                    <input type="text" id="availability" placeholder="e.g. Weekdays after 3 PM">
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Request</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function submitRequest(e) {
+            e.preventDefault();
+            const fields = [
+                { id: 'issueType',   msg: 'Please select an issue type.' },
+                { id: 'urgency',     msg: 'Please select an urgency level.' },
+                { id: 'description', msg: 'Description is required.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            try {
+                const res = await fetch('/api/maintenance-requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        unit: currentUser.unit || '101',
+                        issueType: document.getElementById('issueType').value,
+                        urgency: document.getElementById('urgency').value,
+                        description: document.getElementById('description').value.trim(),
+                        availability: document.getElementById('availability').value.trim()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Request failed.');
+                showToast('Maintenance request submitted! We will contact you to confirm a service time.', 'success');
+                e.target.reset();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Statuses - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Administration Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Resident Statuses</h1>
+            <p>Account standing and lease information</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='administrationMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="table-card">
+            <div class="table-card-header">
+                <h2>All Residents</h2>
+                <span id="residentCount" style="font-size:13px; color:#aaa;">0 residents</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Lease End</th>
+                        <th>Rent Status</th>
+                        <th>Account</th>
+                    </tr>
+                </thead>
+                <tbody id="residentsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function rentBadge(status) {
+            if (status === 'Overdue') return 'badge-overdue';
+            if (status === 'Current' || status === 'Paid') return 'badge-done';
+            return 'badge-pending';
+        }
+
+        async function loadResidents() {
+            const tbody = document.getElementById('residentsBody');
+            const res = await fetch('/api/residents');
+            const residents = await res.json();
+            document.getElementById('residentCount').textContent = residents.length + ' residents';
+            tbody.innerHTML = residents.map(r => `
+                <tr>
+                    <td>${r.name}</td>
+                    <td>${r.unit || ''}</td>
+                    <td>${r.leaseEnds || ''}</td>
+                    <td><span class="badge ${rentBadge(r.rentStatus)}">${r.rentStatus}</span></td>
+                    <td><span class="badge badge-active">${r.status}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="5">No residents found.</td></tr>';
+        }
+        loadResidents();
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

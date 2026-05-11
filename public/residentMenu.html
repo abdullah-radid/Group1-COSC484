@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Dashboard - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <div class="notif-wrapper">
+                <button class="notif-bell" id="notificationBell" type="button" title="Notifications" aria-label="Notifications">
+                    <span class="bell-symbol">🔔</span>
+                    <span class="notif-dot" id="notificationBadge">0</span>
+                </button>
+                <div class="notif-dropdown" id="notificationDropdown">
+                    <p class="notif-empty">Loading notifications...</p>
+                </div>
+            </div>
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Welcome, Resident</h1>
+            <p>Manage your apartment from one place</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="page-layout">
+            <aside class="sidebar">
+                <div class="widget amount-due">
+                    <p class="widget-label">Amount Due</p>
+                    <div class="amount" id="dashboardAmountDue">$1,200</div>
+                    <div class="due-label" id="dashboardDueLabel">Due by June 1, 2026</div>
+                    <span class="status-badge" id="dashboardPaymentStatus">Payment Pending</span>
+                    <button class="pay-btn" onclick="window.location.href='payRent.html'">Pay Now &rarr;</button>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <h2>Pay Rent</h2>
+                        <p>Make a rent payment and review your current balance.</p>
+                        <button onclick="window.location.href='payRent.html'">Pay Rent</button>
+                    </div>
+                    <div class="menu-card">
+                        <h2>View Lease Terms</h2>
+                        <p>Read your lease agreement and review important policies.</p>
+                        <button onclick="window.location.href='lease.html'">View Lease Terms</button>
+                    </div>
+                    <div class="menu-card">
+                        <h2>Request Maintenance</h2>
+                        <p>Submit a request for issues in your unit.</p>
+                        <button onclick="window.location.href='maintenanceRequest.html'">Request Maintenance</button>
+                    </div>
+                    <div class="menu-card">
+                        <h2>Send Message</h2>
+                        <p>Contact management with a question or concern.</p>
+                        <button onclick="window.location.href='message.html'">Send Message</button>
+                    </div>
+                </div>
+
+                <div class="table-card dashboard-section">
+                    <div class="table-card-header">
+                        <h2>Administration Announcements</h2>
+                        <span id="announcementCount" style="font-size:13px; color:#aaa;">0 announcements</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Announcement</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcementsBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="table-card dashboard-section">
+                    <div class="table-card-header">
+                        <h2>Maintenance Updates</h2>
+                        <span id="maintenanceUpdateCount" style="font-size:13px; color:#aaa;">0 updates</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Work Order</th>
+                                <th>Issue</th>
+                                <th>Notes</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maintenanceUpdatesBody"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+
+        function getCurrentUser() {
+            try {
+                return JSON.parse(localStorage.getItem('currentUser') || '{}');
+            } catch (err) {
+                return {};
+            }
+        }
+
+        function statusBadge(status) {
+            if (status === 'Completed' || status === 'Paid' || status === 'Read') return 'badge-done';
+            if (status === 'In Progress' || status === 'Active') return 'badge-progress';
+            if (status === 'Overdue') return 'badge-overdue';
+            return 'badge-pending';
+        }
+
+        function formatDate(value) {
+            if (!value) return 'N/A';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+            return date.toLocaleDateString();
+        }
+
+        function loadResidentPaymentStatus() {
+            const currentUser = getCurrentUser();
+            const isPaid = currentUser.rentStatus === 'Paid';
+            document.getElementById('dashboardAmountDue').textContent = isPaid ? '$0' : '$1,200';
+            document.getElementById('dashboardDueLabel').textContent = isPaid ? 'Rent paid for this period' : 'Due by June 1, 2026';
+            document.getElementById('dashboardPaymentStatus').textContent = isPaid ? 'Payment Paid' : 'Payment Pending';
+        }
+
+        async function loadAnnouncements() {
+            const res = await fetch('/api/notices');
+            if (!res.ok) throw new Error('Could not load notices.');
+
+            const notices = await res.json();
+            const activeNotices = notices.filter(n => n.status !== 'Inactive');
+
+            document.getElementById('announcementCount').textContent = activeNotices.length + ' announcements';
+            document.getElementById('announcementsBody').innerHTML = activeNotices.map(n => `
+                <tr>
+                    <td><strong>${escapeHTML(n.title)}</strong><br><small>${escapeHTML(n.body)}</small></td>
+                    <td>${formatDate(n.postDate || n.createdAt)}</td>
+                    <td><span class="badge ${statusBadge(n.status || 'Active')}">${escapeHTML(n.status || 'Active')}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="3">No announcements posted yet.</td></tr>';
+
+            return activeNotices;
+        }
+
+        async function loadMaintenanceUpdates() {
+            const currentUser = getCurrentUser();
+            const unit = currentUser.unit || '101';
+            const res = await fetch('/api/maintenance-requests?unit=' + encodeURIComponent(unit));
+            if (!res.ok) throw new Error('Could not load maintenance updates.');
+
+            const orders = await res.json();
+            document.getElementById('maintenanceUpdateCount').textContent = orders.length + ' updates';
+            document.getElementById('maintenanceUpdatesBody').innerHTML = orders.map(o => `
+                <tr>
+                    <td>#${escapeHTML(o.orderNumber)}</td>
+                    <td>${escapeHTML(o.issueType)}<br><small>${escapeHTML(o.description)}</small></td>
+                    <td>${escapeHTML(o.notes || (o.status === 'Completed' ? 'Completed by maintenance.' : 'No notes yet.'))}</td>
+                    <td><span class="badge ${statusBadge(o.status)}">${escapeHTML(o.status)}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="4">No maintenance updates yet.</td></tr>';
+
+            return orders;
+        }
+
+        async function loadBellNotifications() {
+            const currentUser = getCurrentUser();
+            const unit = currentUser.unit || '101';
+            const bell = document.getElementById('notificationBell');
+            const badge = document.getElementById('notificationBadge');
+            const dropdown = document.getElementById('notificationDropdown');
+
+            try {
+                const res = await fetch('/api/resident-updates?unit=' + encodeURIComponent(unit));
+                if (!res.ok) throw new Error('Could not load notifications.');
+                const updates = await res.json();
+
+                const items = updates.map(u => {
+                    const key = String(u.type) + '-' + String(u.id || u.title) + '-' + String(u.status || '') + '-' + String(u.date || '');
+                    const label = u.type === 'announcement' ? 'Announcement' : 'Work Order Update';
+                    return {
+                        key,
+                        html: `
+                            <div class="notif-title">${label}: ${escapeHTML(u.title)}</div>
+                            <div class="notif-message">${escapeHTML(u.message)}</div>
+                            <div class="notif-date">${new Date(u.date).toLocaleString()}</div>
+                        `
+                    };
+                });
+
+                const seenKey = 'seenNotifications_' + unit;
+                const seen = JSON.parse(localStorage.getItem(seenKey) || '[]');
+                const unreadCount = items.filter(i => !seen.includes(i.key)).length;
+
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+                bell.classList.toggle('has-alert', unreadCount > 0);
+                dropdown.innerHTML = items.length ? items.map(i => `<div class="notif-item">${i.html}</div>`).join('') : '<p class="notif-empty">No notifications yet.</p>';
+
+                bell.onclick = function (event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('open');
+                    localStorage.setItem(seenKey, JSON.stringify(items.map(i => i.key)));
+                    badge.textContent = '0';
+                    badge.style.display = 'none';
+                    bell.classList.remove('has-alert');
+                };
+            } catch (err) {
+                badge.textContent = '0';
+                badge.style.display = 'none';
+                dropdown.innerHTML = '<p class="notif-empty">Could not load notifications.</p>';
+                bell.onclick = function (event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('open');
+                };
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const wrapper = document.querySelector('.notif-wrapper');
+            const dropdown = document.getElementById('notificationDropdown');
+            if (wrapper && dropdown && !wrapper.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        async function loadDashboard() {
+            loadResidentPaymentStatus();
+            try {
+                await Promise.all([
+                    loadAnnouncements(),
+                    loadMaintenanceUpdates(),
+                    loadBellNotifications()
+                ]);
+            } catch (err) {
+                document.getElementById('announcementsBody').innerHTML = '<tr><td colspan="3">Could not load announcements.</td></tr>';
+                document.getElementById('maintenanceUpdatesBody').innerHTML = '<tr><td colspan="4">Could not load maintenance updates.</td></tr>';
+            }
+        }
+
+        loadDashboard();
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

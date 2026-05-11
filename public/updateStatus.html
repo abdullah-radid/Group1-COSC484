@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Request Status - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Maintenance Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Update Request Status</h1>
+            <p>Mark maintenance requests as complete or in progress</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='maintenanceMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="updateStatus(event)" novalidate>
+
+                <div class="form-group">
+                    <label for="orderId">Work Order #</label>
+                    <input type="text" id="orderId" placeholder="e.g. 1042">
+                    <span class="field-error">Work order number is required.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">New Status</label>
+                    <select id="status" required>
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="On Hold">On Hold</option>
+                    </select>
+                    <span class="field-error">Please select a status.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" placeholder="Add any notes about the work performed or current status..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Update Status</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function updateStatus(e) {
+            e.preventDefault();
+            const fields = [
+                { id: 'orderId', msg: 'Work order number is required.' },
+                { id: 'status',  msg: 'Please select a status.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            const id = document.getElementById('orderId').value.trim().replace('#', '');
+            const status = document.getElementById('status').value;
+            const notes = document.getElementById('notes').value.trim();
+            try {
+                const res = await fetch('/api/maintenance-requests/' + id, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status, notes })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Update failed.');
+                showToast(`Work Order #${id} updated to "${status}". The resident will see this update on their dashboard and notification bell.`, 'success');
+                e.target.reset();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>
