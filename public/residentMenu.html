@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
     <link rel="stylesheet" href="styles.css">
@@ -47,10 +48,11 @@
                 <div class="widget" id="weather-widget">
                     <p class="widget-label">Current Weather</p>
                     <div class="weather-main">
-                        <div class="weather-icon" id="weather-icon">🌡️</div>
+                        <div class="weather-icon" id="weather-icon"></div>
                         <div>
-                            <div class="weather-temp" id="weather-temp">--°F</div>
-                            <div class="weather-desc" id="weather-desc">Loading...</div>
+                            <div id="weather-spinner" class="weather-spinner"></div>
+                            <div class="weather-temp" id="weather-temp" style="display:none;"></div>
+                            <div class="weather-desc" id="weather-desc" style="display:none;"></div>
                         </div>
                     </div>
                     <div class="weather-details">
@@ -125,11 +127,16 @@
                 );
                 const data = await r.json();
                 const w = data.current_weather;
+                document.getElementById('weather-spinner').style.display = 'none';
                 document.getElementById('weather-icon').textContent = WMO_ICON[w.weathercode] ?? '🌡️';
+                document.getElementById('weather-temp').style.display = 'block';
                 document.getElementById('weather-temp').textContent = `${Math.round(w.temperature)}°F`;
+                document.getElementById('weather-desc').style.display = 'block';
                 document.getElementById('weather-desc').textContent = WMO_DESC[w.weathercode] ?? 'Unknown';
                 document.getElementById('weather-wind').textContent = `Wind ${Math.round(w.windspeed)} mph`;
             } catch {
+                document.getElementById('weather-spinner').style.display = 'none';
+                document.getElementById('weather-desc').style.display = 'block';
                 document.getElementById('weather-desc').textContent = 'Enable location for weather';
                 document.getElementById('weather-wind').textContent = '';
             }
@@ -138,5 +145,6 @@
         loadWeather();
     </script>
 
+    <script src="portal.js"></script>
 </body>
 </html>

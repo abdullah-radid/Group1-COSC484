@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riverside Apartments - Login</title>
     <style>
@@ -140,6 +141,32 @@
         button[type="submit"]:hover {
             background: #333;
         }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 42px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .toggle-password:hover {
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -169,14 +196,17 @@
             document.getElementById("box").innerHTML = `
                 <div class="box-brand">Riverside Apartments</div>
                 <h2>Resident Login</h2>
-                <form action="residentMenu.html" method="get">
+                <form onsubmit="handleLogin(event, 'residentMenu.html')">
                     <div>
                         <label for="residentEmail">Email</label>
                         <input type="email" id="residentEmail" name="email" placeholder="Enter your email" required>
                     </div>
                     <div>
                         <label for="residentPassword">Password</label>
-                        <input type="password" id="residentPassword" name="password" placeholder="Enter your password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="residentPassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('residentPassword', this)">Show</button>
+                        </div>
                     </div>
                     <button type="submit">Login</button>
                 </form>
@@ -188,14 +218,17 @@
             document.getElementById("box").innerHTML = `
                 <div class="box-brand">Riverside Apartments</div>
                 <h2>Maintenance Login</h2>
-                <form action="maintenanceMenu.html" method="get">
+                <form onsubmit="handleLogin(event, 'maintenanceMenu.html')">
                     <div>
                         <label for="maintenanceID">Employee ID</label>
                         <input type="number" id="maintenanceID" name="employeeID" placeholder="Enter employee ID" required>
                     </div>
                     <div>
                         <label for="maintenancePassword">Password</label>
-                        <input type="password" id="maintenancePassword" name="password" placeholder="Enter your password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="maintenancePassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('maintenancePassword', this)">Show</button>
+                        </div>
                     </div>
                     <button type="submit">Login</button>
                 </form>
@@ -207,14 +240,17 @@
             document.getElementById("box").innerHTML = `
                 <div class="box-brand">Riverside Apartments</div>
                 <h2>Administration Login</h2>
-                <form action="administrationMenu.html" method="get">
+                <form onsubmit="handleLogin(event, 'administrationMenu.html')">
                     <div>
                         <label for="adminID">Employee ID</label>
                         <input type="number" id="adminID" name="employeeID" placeholder="Enter employee ID" required>
                     </div>
                     <div>
                         <label for="adminPassword">Password</label>
-                        <input type="password" id="adminPassword" name="password" placeholder="Enter your password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="adminPassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('adminPassword', this)">Show</button>
+                        </div>
                     </div>
                     <div>
                         <label for="adminCode">Admin Code</label>
@@ -223,6 +259,22 @@
                     <button type="submit">Login</button>
                 </form>
             `;
+        }
+
+        function handleLogin(event, destination) {
+            event.preventDefault();
+            window.location.href = destination;
+        }
+
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'Show';
+            }
         }
 
         showResident();

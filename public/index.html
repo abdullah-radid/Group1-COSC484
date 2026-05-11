@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riverside Apartments - Welcome</title>
     <link rel="stylesheet" href="styles.css">
@@ -15,6 +16,12 @@
             position: fixed;
             background: rgba(20, 20, 20, 0.85);
             backdrop-filter: blur(6px);
+            transition: transform 1.2s ease, opacity 1.2s ease;
+        }
+
+        .home-nav.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
         }
 
         .home-nav .nav-login-btn {
@@ -407,9 +414,8 @@
 
     <!-- Navigation -->
     <nav class="home-nav">
-        <div class="nav-brand">Riverside Apartments</div>
+        <div class="nav-brand" style="color:white;">Riverside Apartments</div>
         <div class="nav-right">
-            <a href="#inquire" style="color:#ccc; font-size:14px; text-decoration:none; margin-right:6px;">Inquire</a>
             <button class="nav-login-btn" onclick="window.location.href='Login.html'">Resident Login</button>
         </div>
     </nav>
@@ -602,12 +608,28 @@
         // Auto-advance every 4 seconds
         setInterval(() => changeSlide(1), 4000);
 
+        // Hide nav on scroll, reappear after 2 seconds
+        let scrollTimer = null;
+        const homeNav = document.querySelector('.home-nav');
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 60) {
+                homeNav.classList.add('hidden');
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(function () {
+                    homeNav.classList.remove('hidden');
+                }, 5000);
+            } else {
+                homeNav.classList.remove('hidden');
+            }
+        });
+
         function submitInquiry(e) {
             e.preventDefault();
-            alert('Thank you! Our leasing team will contact you within one business day.');
+            showToast('Thank you! Our leasing team will contact you within one business day.', 'success');
             e.target.reset();
         }
     </script>
 
+    <script src="portal.js"></script>
 </body>
 </html>

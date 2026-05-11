@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lease Terms - Riverside Apartments</title>
     <link rel="stylesheet" href="styles.css">
@@ -24,7 +25,10 @@
     </div>
 
     <div id="content">
-        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+        <div style="display:flex; align-items:center; margin-bottom:22px;">
+            <button class="btn-back" style="margin-bottom:0;" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+            <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+        </div>
 
         <div class="page-card" style="max-width: 720px;">
 
@@ -76,5 +80,6 @@
         </div>
     </div>
 
+    <script src="portal.js"></script>
 </body>
 </html>
