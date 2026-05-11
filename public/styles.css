@@ -5,7 +5,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f0f2f5;
+    background: linear-gradient(to bottom, #f7f9fc 0%, #d6dee8 100%);
     color: #222;
     min-height: 100vh;
 }
@@ -103,6 +103,7 @@ nav {
 
 #content {
     padding: 28px 40px;
+    
 }
 
 /* ── Sidebar Layout (resident dashboard) ── */
