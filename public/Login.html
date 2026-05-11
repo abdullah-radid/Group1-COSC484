@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Towson Apartments - Login</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("https://images.pexels.com/photos/33230969/pexels-photo-33230969.jpeg");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 0 30px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-roles {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-label {
+            color: #ccc;
+            font-size: 14px;
+            margin-right: 6px;
+        }
+
+        nav a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        #box {
+            width: 440px;
+            background: #FFE4C4;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 32px 30px 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        #box .box-brand {
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        #box h2 {
+            text-align: center;
+            margin: 0 0 22px;
+            font-size: 22px;
+            color: #1a1a1a;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #444;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 10px 12px;
+            font-size: 15px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #888;
+        }
+
+        button[type="submit"] {
+            padding: 11px;
+            font-size: 15px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            margin-top: 4px;
+            transition: background 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background: #333;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 42px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .toggle-password:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-roles">
+            <span class="nav-label">Login as:</span>
+            <a id="tab-resident" onclick="showResident()" class="active">Residents</a>
+            <a id="tab-admin" onclick="showAdministration()">Administration</a>
+            <a id="tab-maintenance" onclick="showMaintenance()">Maintenance</a>
+        </div>
+    </nav>
+
+    <div id="box"></div>
+
+    <script>
+        function setActive(id) {
+            ['tab-resident', 'tab-admin', 'tab-maintenance'].forEach(t =>
+                document.getElementById(t).classList.remove('active')
+            );
+            document.getElementById(id).classList.add('active');
+        }
+
+        function showResident() {
+            setActive('tab-resident');
+            document.getElementById("box").innerHTML = `
+                <div class="box-brand">Towson Apartments</div>
+                <h2>Resident Login</h2>
+                <form onsubmit="handleLogin(event, 'resident', 'residentMenu.html')">
+                    <div>
+                        <label for="residentEmail">Email</label>
+                        <input type="email" id="residentEmail" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div>
+                        <label for="residentPassword">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="residentPassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('residentPassword', this)">Show</button>
+                        </div>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        function showMaintenance() {
+            setActive('tab-maintenance');
+            document.getElementById("box").innerHTML = `
+                <div class="box-brand">Towson Apartments</div>
+                <h2>Maintenance Login</h2>
+                <form onsubmit="handleLogin(event, 'maintenance', 'maintenanceMenu.html')">
+                    <div>
+                        <label for="maintenanceID">Employee ID</label>
+                        <input type="number" id="maintenanceID" name="employeeID" placeholder="Enter employee ID" required>
+                    </div>
+                    <div>
+                        <label for="maintenancePassword">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="maintenancePassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('maintenancePassword', this)">Show</button>
+                        </div>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        function showAdministration() {
+            setActive('tab-admin');
+            document.getElementById("box").innerHTML = `
+                <div class="box-brand">Towson Apartments</div>
+                <h2>Administration Login</h2>
+                <form onsubmit="handleLogin(event, 'admin', 'administrationMenu.html')">
+                    <div>
+                        <label for="adminID">Employee ID</label>
+                        <input type="number" id="adminID" name="employeeID" placeholder="Enter employee ID" required>
+                    </div>
+                    <div>
+                        <label for="adminPassword">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="adminPassword" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('adminPassword', this)">Show</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="adminCode">Admin Code</label>
+                        <input type="number" id="adminCode" name="adminCode" placeholder="Enter admin code" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            `;
+        }
+
+        async function handleLogin(event, role, destination) {
+            event.preventDefault();
+            const form = event.target;
+            const body = { role };
+
+            if (role === 'resident') {
+                body.email = form.email.value.trim();
+                body.password = form.password.value;
+            } else if (role === 'maintenance') {
+                body.employeeID = form.employeeID.value;
+                body.password = form.password.value;
+            } else {
+                body.employeeID = form.employeeID.value;
+                body.password = form.password.value;
+                body.adminCode = form.adminCode.value;
+            }
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Login failed.');
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                window.location.href = destination;
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                btn.textContent = 'Show';
+            }
+        }
+
+        showResident();
+    </script>
+</body>
+</html>

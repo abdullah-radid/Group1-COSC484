@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Terms - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Lease Terms</h1>
+            <p>Your lease agreement and building policies</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <div style="display:flex; align-items:center; margin-bottom:22px;">
+            <button class="btn-back" style="margin-bottom:0;" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+            <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+        <div class="page-card" style="max-width: 720px;">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <div>
+                    <div style="font-size:13px; color:#999; margin-bottom:4px;">Unit 205 &nbsp;·&nbsp; Resident: John Smith</div>
+                    <div style="font-size:13px; color:#999;">Lease Period: Jan 1, 2026 &ndash; Dec 31, 2026</div>
+                </div>
+                <span class="badge badge-active">Active</span>
+            </div>
+
+            <hr class="divider" style="margin-top:0;">
+
+            <div class="lease-section">
+                <h3>Monthly Rent</h3>
+                <p>The monthly rent for Unit 205 is <strong>$1,200.00</strong>, due on the 1st of each month. A grace period of 5 days is provided. Payments received after the 6th of the month will incur a late fee of $75.00.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Lease Term</h3>
+                <p>This lease agreement begins on January 1, 2026 and expires on December 31, 2026. To renew, written notice must be submitted to management no later than 60 days before the lease end date.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Occupancy Rules</h3>
+                <p>Only residents listed on the lease agreement may occupy the unit. Guests may stay no longer than 14 consecutive days without prior written approval from management. Subletting is not permitted.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Pet Policy</h3>
+                <p>Pets are permitted with prior written approval. A non-refundable pet deposit of $300 is required per pet. Only dogs and cats under 40 lbs are permitted. Exotic animals are not allowed.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Maintenance Responsibilities</h3>
+                <p>Residents are responsible for maintaining the unit in clean condition and promptly reporting any damage or maintenance issues. Management is responsible for structural repairs, plumbing, and HVAC systems.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Quiet Hours</h3>
+                <p>Quiet hours are observed Sunday–Thursday from 10:00 PM to 8:00 AM, and Friday–Saturday from 11:00 PM to 9:00 AM. Excessive noise at any hour may result in a written warning.</p>
+            </div>
+
+            <div class="lease-section">
+                <h3>Contact Management</h3>
+                <p>For questions regarding your lease, contact the management office at <strong>management@towsonapts.com</strong> or call <strong>(555) 800-1234</strong> during office hours: Mon–Fri 9:00 AM – 5:00 PM.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="portal.js"></script>
+</body>
+</html>

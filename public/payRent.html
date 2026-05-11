@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Rent - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Pay Rent</h1>
+            <p>Review your balance and make a payment</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+
+            <div class="amount-summary">
+                <div>
+                    <div class="summary-label">Amount Due</div>
+                    <div class="summary-amount" id="amountDueText">$1,200.00</div>
+                    <div class="summary-meta" id="paymentMeta">Due by June 1, 2026 &nbsp;·&nbsp; Unit</div>
+                </div>
+                <span class="badge badge-pending" id="paymentBadge">Pending</span>
+            </div>
+
+            <form onsubmit="submitPayment(event)" novalidate>
+                <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" placeholder="John Smith">
+                    <span class="field-error">Name on card is required.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    <span class="field-error">Card number is required.</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" placeholder="MM / YY" maxlength="7">
+                        <span class="field-error">Expiry date is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4">
+                        <span class="field-error">CVV is required.</span>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label for="amount">Payment Amount ($)</label>
+                    <input type="number" id="amount" value="1200.00" min="1" step="0.01" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        function loadPaymentInfo() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const unit = currentUser.unit || 'N/A';
+            const isPaid = currentUser.rentStatus === 'Paid';
+            document.getElementById('paymentMeta').textContent = `Due by June 1, 2026 · Unit ${unit}`;
+            document.getElementById('paymentBadge').textContent = isPaid ? 'Paid' : 'Pending';
+            document.getElementById('paymentBadge').className = isPaid ? 'badge badge-success' : 'badge badge-pending';
+            document.getElementById('amountDueText').textContent = isPaid ? '$0.00' : '$1,200.00';
+        }
+
+        loadPaymentInfo();
+
+        async function submitPayment(e) {
+            e.preventDefault();
+            const fields = [
+                { id: 'cardName',   msg: 'Name on card is required.' },
+                { id: 'cardNumber', msg: 'Card number is required.' },
+                { id: 'expiry',     msg: 'Expiry date is required.' },
+                { id: 'cvv',        msg: 'CVV is required.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            try {
+                const res = await fetch('/api/payments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        residentId: currentUser._id,
+                        residentName: currentUser.name,
+                        unit: currentUser.unit || '101',
+                        cardName: document.getElementById('cardName').value.trim(),
+                        cardNumber: document.getElementById('cardNumber').value.trim(),
+                        amount: document.getElementById('amount').value
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Payment failed.');
+                if (data.resident) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.resident));
+                } else {
+                    currentUser.rentStatus = 'Paid';
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                showToast('Payment submitted successfully! Your rent status was updated.', 'success');
+                document.getElementById('paymentBadge').textContent = 'Paid';
+                document.getElementById('paymentBadge').className = 'badge badge-success';
+                document.getElementById('amountDueText').textContent = '$0.00';
+                e.target.reset();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

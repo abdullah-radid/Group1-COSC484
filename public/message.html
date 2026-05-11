@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Resident Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Send a Message</h1>
+            <p>Contact management with questions or concerns</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='residentMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="page-card page-card-narrow">
+            <form onsubmit="submitMessage(event)" novalidate>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Select a Category</option>
+                        <option value="general">General Question</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="noise">Noise Concern</option>
+                        <option value="billing">Billing Issue</option>
+                        <option value="lease">Lease Question</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="field-error">Please select a category.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="Brief description of your message">
+                    <span class="field-error">Subject is required.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="body">Message</label>
+                    <textarea id="body" placeholder="Write your message here..." style="min-height:140px;"></textarea>
+                    <span class="field-error">Message is required.</span>
+                </div>
+
+                <button type="submit" class="btn-submit">Send Message</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function submitMessage(e) {
+            e.preventDefault();
+            const fields = [
+                { id: 'category', msg: 'Please select a category.' },
+                { id: 'subject',  msg: 'Subject is required.' },
+                { id: 'body',     msg: 'Message is required.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            try {
+                const res = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        unit: currentUser.unit || '101',
+                        category: document.getElementById('category').value,
+                        subject: document.getElementById('subject').value.trim(),
+                        body: document.getElementById('body').value.trim()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Message failed.');
+                showToast('Message sent! Management will respond within 1-2 business days.', 'success');
+                e.target.reset();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

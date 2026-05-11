@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Orders - Towson Apartments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">Towson Apartments</div>
+        <div class="nav-right">
+            <span class="nav-user">Maintenance Portal</span>
+            <button class="nav-logout" onclick="window.location.href='Login.html'">Logout</button>
+        </div>
+    </nav>
+
+    <div id="banner">
+        <div id="banner-text">
+            <h1>Work Orders</h1>
+            <p>Assigned maintenance requests and tasks</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <button class="btn-back" onclick="window.location.href='maintenanceMenu.html'">&larr; Back to Dashboard</button>
+
+        <div class="table-card">
+            <div class="table-card-header">
+                <h2>Current Work Orders</h2>
+                <span id="orderCount" style="font-size:13px; color:#aaa;">0 orders</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Unit</th>
+                        <th>Request</th>
+                        <th>Type</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function badgeClass(status) {
+            if (status === 'Completed') return 'badge-done';
+            if (status === 'In Progress') return 'badge-progress';
+            return 'badge-pending';
+        }
+
+        async function loadOrders() {
+            const tbody = document.getElementById('ordersBody');
+            const res = await fetch('/api/maintenance-requests');
+            const orders = await res.json();
+            document.getElementById('orderCount').textContent = orders.length + ' orders';
+            tbody.innerHTML = orders.map(o => `
+                <tr>
+                    <td style="color:#aaa;">#${o.orderNumber}</td>
+                    <td>${o.unit || ''}</td>
+                    <td>${o.description}</td>
+                    <td>${o.issueType}</td>
+                    <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+                    <td><span class="badge ${badgeClass(o.status)}">${o.status}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="6">No work orders yet.</td></tr>';
+        }
+        loadOrders();
+    </script>
+
+    <script src="portal.js"></script>
+</body>
+</html>

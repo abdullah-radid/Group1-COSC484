@@ -1,0 +1,303 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #172230;
+    background: #ffffff;
+}
+
+/* Shared top navigation for homepage, FAQ, and signup */
+.topbar {
+    width: 100%;
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 0 28px;
+    background: #ffffff;
+    border-bottom: 1px solid #d8dde3;
+    position: relative;
+    z-index: 5;
+}
+
+.logo {
+    text-decoration: none;
+    color: #202a35;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.logo-the {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.logo-main {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    letter-spacing: 7px;
+}
+
+.top-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+    flex-shrink: 0;
+}
+
+.top-links a {
+    text-decoration: none;
+    color: #1d2733;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    white-space: nowrap;
+}
+
+.dark-btn {
+    background: #192532;
+    color: #ffffff !important;
+    padding: 15px 26px;
+    border-radius: 2px;
+}
+
+.dark-btn:hover {
+    background: #26384d;
+}
+
+.hero {
+    min-height: calc(100vh - 76px);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-image {
+    height: calc(100vh - 76px);
+    min-height: 620px;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.05)), url("images/apartment-building.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-panel {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 86%;
+    min-height: 132px;
+    background: #1d2b39;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 78px 30px 118px;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #aab7c3;
+}
+
+.hero-panel h1 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: 52px;
+    font-weight: normal;
+    line-height: 1;
+    color: #d7e2e8;
+}
+
+.hero-panel h1 em {
+    font-style: italic;
+    font-size: 42px;
+}
+
+.subtitle {
+    margin: 10px 0 0;
+    font-size: 19px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.outline-btn {
+    text-decoration: none;
+    color: #ffffff;
+    border: 1px solid #d8e2ea;
+    padding: 18px 34px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    white-space: nowrap;
+    box-shadow: 5px 5px 0 rgba(255,255,255,0.25);
+}
+
+.form-page {
+    min-height: calc(100vh - 76px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    background: linear-gradient(rgba(29,43,57,0.75), rgba(29,43,57,0.75)), url("images/apartment-building.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.form-card, .faq-card {
+    width: min(720px, 100%);
+    background: white;
+    padding: 36px;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+}
+
+.form-card h1, .faq-card h1 {
+    margin: 0 0 10px;
+    font-family: Georgia, serif;
+    font-size: 42px;
+    font-weight: normal;
+    color: #1d2b39;
+}
+
+.form-card p, .faq-card p {
+    color: #53606d;
+    line-height: 1.6;
+}
+
+.signup-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #1d2b39;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c9d0d7;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+button {
+    background: #1d2b39;
+    color: white;
+    border: none;
+    padding: 15px 24px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    cursor: pointer;
+}
+
+#signupMessage {
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+.faq-list {
+    margin-top: 24px;
+    display: grid;
+    gap: 18px;
+}
+
+.faq-item {
+    border-top: 1px solid #d6dce2;
+    padding-top: 18px;
+}
+
+.faq-item h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #1d2b39;
+}
+
+.faq-item p {
+    margin: 0;
+}
+
+@media (max-width: 950px) {
+    .topbar {
+        height: auto;
+        padding: 18px;
+        gap: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .logo-main {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .top-links {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .top-links a {
+        letter-spacing: 3px;
+    }
+
+    .hero-image {
+        min-height: 650px;
+    }
+
+    .hero-panel {
+        width: 100%;
+        padding: 28px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+    }
+
+    .hero-panel h1 {
+        font-size: 38px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .signup-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.no-button-panel {
+    justify-content: flex-start;
+}
