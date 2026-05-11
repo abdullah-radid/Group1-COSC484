@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Notices - Riverside Apartments</title>
     <link rel="stylesheet" href="styles.css">
@@ -31,21 +32,24 @@
             <!-- Create Notice Form -->
             <div class="page-card" style="flex:1; min-width:300px; max-width:480px;">
                 <h2 style="margin:0 0 20px; font-size:18px;">Post New Notice</h2>
-                <form onsubmit="postNotice(event)">
+                <form onsubmit="postNotice(event)" novalidate>
 
                     <div class="form-group">
                         <label for="noticeTitle">Title</label>
-                        <input type="text" id="noticeTitle" placeholder="e.g. Scheduled Water Shutoff" required>
+                        <input type="text" id="noticeTitle" placeholder="e.g. Scheduled Water Shutoff">
+                        <span class="field-error">Title is required.</span>
                     </div>
 
                     <div class="form-group">
                         <label for="noticeDate">Post Date</label>
-                        <input type="date" id="noticeDate" required>
+                        <input type="date" id="noticeDate">
+                        <span class="field-error">Post date is required.</span>
                     </div>
 
                     <div class="form-group">
                         <label for="noticeBody">Message</label>
-                        <textarea id="noticeBody" placeholder="Write the notice content here..." required></textarea>
+                        <textarea id="noticeBody" placeholder="Write the notice content here..."></textarea>
+                        <span class="field-error">Message is required.</span>
                     </div>
 
                     <button type="submit" class="btn-submit">Post Notice</button>
@@ -89,10 +93,29 @@
     <script>
         function postNotice(e) {
             e.preventDefault();
-            alert('Notice posted! (Backend integration coming soon)');
+            const fields = [
+                { id: 'noticeTitle', msg: 'Title is required.' },
+                { id: 'noticeDate',  msg: 'Post date is required.' },
+                { id: 'noticeBody',  msg: 'Message is required.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            showToast('Notice posted successfully!', 'success');
             e.target.reset();
         }
     </script>
 
+    <script src="portal.js"></script>
 </body>
 </html>

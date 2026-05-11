@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay Rent - Riverside Apartments</title>
     <link rel="stylesheet" href="styles.css">
@@ -37,25 +38,29 @@
                 <span class="badge badge-pending">Pending</span>
             </div>
 
-            <form onsubmit="submitPayment(event)">
+            <form onsubmit="submitPayment(event)" novalidate>
                 <div class="form-group">
-                    <label for="cardName">Name On Card</label>
-                    <input type="text" id="cardName" placeholder="John Smith" required>
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" placeholder="John Smith">
+                    <span class="field-error">Name on card is required.</span>
                 </div>
 
                 <div class="form-group">
                     <label for="cardNumber">Card Number</label>
-                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    <span class="field-error">Card number is required.</span>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="expiry">Expiry Date</label>
-                        <input type="text" id="expiry" placeholder="MM / YY" maxlength="7" required>
+                        <input type="text" id="expiry" placeholder="MM / YY" maxlength="7">
+                        <span class="field-error">Expiry date is required.</span>
                     </div>
                     <div class="form-group">
                         <label for="cvv">CVV</label>
-                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                        <input type="text" id="cvv" placeholder="123" maxlength="4">
+                        <span class="field-error">CVV is required.</span>
                     </div>
                 </div>
 
@@ -74,9 +79,29 @@
     <script>
         function submitPayment(e) {
             e.preventDefault();
-            alert('Payment submitted! (Backend integration coming soon)');
+            const fields = [
+                { id: 'cardName',   msg: 'Name on card is required.' },
+                { id: 'cardNumber', msg: 'Card number is required.' },
+                { id: 'expiry',     msg: 'Expiry date is required.' },
+                { id: 'cvv',        msg: 'CVV is required.' }
+            ];
+            let valid = true;
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                const group = el.closest('.form-group');
+                if (!el.value.trim()) {
+                    group.classList.add('has-error');
+                    valid = false;
+                } else {
+                    group.classList.remove('has-error');
+                }
+                el.addEventListener('input', () => group.classList.remove('has-error'), { once: true });
+            });
+            if (!valid) return;
+            showToast('Payment submitted successfully!', 'success');
         }
     </script>
 
+    <script src="portal.js"></script>
 </body>
 </html>
